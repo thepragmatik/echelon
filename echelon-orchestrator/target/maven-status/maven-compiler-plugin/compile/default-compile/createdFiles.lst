@@ -5,6 +5,7 @@ io/echelon/orchestrator/service/TaskStreamService.class
 io/echelon/orchestrator/EchelonApplication.class
 io/echelon/orchestrator/service/TaskStateService.class
 io/echelon/orchestrator/config/ReviewManagerConfig.class
+io/echelon/orchestrator/service/CacheService.class
 io/echelon/orchestrator/controller/HealthController.class
 io/echelon/orchestrator/service/AuditService.class
 io/echelon/orchestrator/model/Task.class
