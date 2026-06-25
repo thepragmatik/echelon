@@ -1,1 +1,7 @@
+io/echelon/orchestrator/controller/HealthController.class
+io/echelon/orchestrator/service/AuditService.class
+io/echelon/orchestrator/config/RedisConfig.class
 io/echelon/orchestrator/EchelonApplication.class
+io/echelon/orchestrator/model/Task.class
+io/echelon/orchestrator/service/TaskStateService.class
+io/echelon/orchestrator/model/Task$TaskStatus.class

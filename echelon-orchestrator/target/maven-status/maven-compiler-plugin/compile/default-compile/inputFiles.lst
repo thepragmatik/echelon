@@ -1,1 +1,7 @@
 /tmp/repo/echelon-orchestrator/src/main/java/io/echelon/orchestrator/EchelonApplication.java
+/tmp/repo/echelon-orchestrator/src/main/java/io/echelon/orchestrator/config/RedisConfig.java
+/tmp/repo/echelon-orchestrator/src/main/java/io/echelon/orchestrator/controller/HealthController.java
+/tmp/repo/echelon-orchestrator/src/main/java/io/echelon/orchestrator/model/Task.java
+/tmp/repo/echelon-orchestrator/src/main/java/io/echelon/orchestrator/service/AuditService.java
+/tmp/repo/echelon-orchestrator/src/main/java/io/echelon/orchestrator/service/TaskStateService.java
+/tmp/repo/echelon-orchestrator/src/main/java/io/echelon/orchestrator/service/TaskStreamService.java
