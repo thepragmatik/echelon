@@ -1,39 +1,48 @@
 services:
-  redis:
-    build: { context: ., dockerfile: Dockerfile.redis }
+  redis-primary:
+    image: redis:7-alpine
     ports: ["6379:6379"]
     networks: [echelon-internal]
-    healthcheck: { test: ["CMD","redis-cli","ping"], interval: 5s, timeout: 3s, retries: 5 }
+    volumes: ["redis-data:/data"]
+    healthcheck: {test:["CMD","redis-cli","ping"],interval:5s,timeout:3s,retries:5}
+
+  redis-replica:
+    image: redis:7-alpine
+    ports: ["6380:6379"]
+    networks: [echelon-internal]
+    command: ["redis-server","--replicaof","redis-primary","6379"]
+    depends_on: [redis-primary]
+
+  redis-sentinel:
+    build: {context:.,dockerfile:Dockerfile.sentinel}
+    ports: ["26379:26379"]
+    networks: [echelon-internal]
+    depends_on: [redis-primary,redis-replica]
 
   builder:
-    build: { context: ., dockerfile: Dockerfile.builder }
-    volumes:
-      - ../:/workspace:ro
-      - /tmp/echelon-work:/work:rw
-      - ~/.m2:/root/.m2:ro
-    environment: { GH_TOKEN: "${GH_TOKEN:-}" }
+    build: {context:.,dockerfile:Dockerfile.builder}
+    volumes: [../:/workspace:ro,/tmp/echelon-work:/work:rw,~/.m2:/root/.m2:ro]
+    environment: [GH_TOKEN=***,LLM_PROXY_URL=http://privacy-router:8080]
     networks: [echelon-internal]
-    depends_on: { redis: { condition: service_healthy } }
+    depends_on: [redis-primary]
     profiles: [managers]
 
   reviewer:
-    build: { context: ., dockerfile: Dockerfile.reviewer }
+    build: {context:.,dockerfile:Dockerfile.reviewer}
     security_opt: [seccomp:./seccomp/reviewer-strict.json]
-    volumes:
-      - ../:/workspace:ro
-      - /tmp/echelon-work:/work:rw
-    environment: { GH_TOKEN: "${GH_TOKEN:-}", LLM_PROXY_URL: "http://privacy-router:8080" }
+    volumes: [../:/workspace:ro,/tmp/echelon-work:/work:rw]
+    environment: [GH_TOKEN=***,LLM_PROXY_URL=http://privacy-router:8080]
     networks: [echelon-internal]
-    depends_on: { redis: { condition: service_healthy } }
+    depends_on: [redis-primary]
     profiles: [managers]
 
   privacy-router:
-    build: { context: ., dockerfile: Dockerfile.privacy-router }
+    build: {context:.,dockerfile:Dockerfile.privacy-router}
     ports: ["8080:8080"]
-    environment:
-      DEEPSEEK_API_KEY: "${DEEPSEEK_API_KEY:-}"
-      WAFER_API_KEY: "${WAFER_API_KEY:-}"
+    environment: [DEEPSEEK_API_KEY=***,WAFER_API_KEY=***]
     networks: [echelon-internal]
 
 networks:
-  echelon-internal: { driver: bridge }
+  echelon-internal: {driver:bridge}
+volumes:
+  redis-data:
