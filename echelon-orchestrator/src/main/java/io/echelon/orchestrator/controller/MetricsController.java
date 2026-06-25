@@ -9,9 +9,8 @@ public class MetricsController {
     public MetricsController(MeterRegistry registry) { this.registry = registry; }
     @GetMapping("/metrics/summary")
     public Map<String, Object> summary() {
-        return Map.of(
-            "jvm.memory.used", registry.find("jvm.memory.used").gauges().stream().mapToDouble(g -> g.value()).sum(),
-            "jvm.threads.live", registry.find("jvm.threads.live").gauge().map(g -> (int)g.value()).orElse(0)
-        );
+        var mem = registry.find("jvm.memory.used").gauges().stream().mapToDouble(g -> g.value()).sum();
+        var thr = registry.find("jvm.threads.live").gauges().stream().mapToDouble(g -> g.value()).sum();
+        return Map.of("jvm.memory.used", mem, "jvm.threads.live", (int) thr);
     }
 }
