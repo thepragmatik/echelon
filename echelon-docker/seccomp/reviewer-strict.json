@@ -1,0 +1,12 @@
+{
+    "defaultAction": "SCMP_ACT_ALLOW",
+    "architectures": ["SCMP_ARCH_X86_64", "SCMP_ARCH_AARCH64"],
+    "syscalls": [
+        {
+            "names": ["socket", "connect", "clone", "clone3", "execveat", "ptrace", "process_vm_readv", "process_vm_writev", "keyctl", "add_key", "request_key", "swapon", "swapoff", "mount", "umount2", "pivot_root", "kexec_load", "kexec_file_load"],
+            "action": "SCMP_ACT_ERRNO",
+            "args": [],
+            "comment": "Blocked: reviewers only read code and call LLM API"
+        }
+    ]
+}
