@@ -1,0 +1,26 @@
+# Echelon Network Policy
+# Default-deny for all containers except through Privacy Router
+
+services:
+  redis:
+    network: echelon-internal
+    egress: all  # limited to internal network
+
+  builder:
+    network: echelon-internal
+    egress:
+      - api.github.com:443
+      - registry.maven.org:443
+      - repo1.maven.org:443
+      - plugins.gradle.org:443
+
+  reviewer:
+    network: echelon-internal
+    egress: []  # zero direct egress — all API calls through Privacy Router
+
+  privacy-router:
+    network: echelon-internal
+    egress:
+      - api.deepseek.com:443
+      - pass.wafer.ai:443
+      - api.github.com:443
