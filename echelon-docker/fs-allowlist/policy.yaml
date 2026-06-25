@@ -1,0 +1,41 @@
+# Echelon Filesystem Allowlisting Policy
+# All mounts are read-only except /tmp/echelon-work
+
+containers:
+  builder:
+    mounts:
+      - source: "../"
+        target: "/workspace"
+        mode: ro
+      - source: "/tmp/echelon-work"
+        target: "/work"
+        mode: rw
+      - source: "~/.m2"
+        target: "/root/.m2"
+        mode: ro
+    forbidden_paths:
+      - "/etc"
+      - "/proc"
+      - "/sys"
+      - "/dev"
+      - "/home"
+      - "/root/.ssh"
+      - "/root/.aws"
+
+  reviewer:
+    mounts:
+      - source: "../"
+        target: "/workspace"
+        mode: ro
+      - source: "/tmp/echelon-work"
+        target: "/work"
+        mode: rw
+    forbidden_paths:
+      - "/etc"
+      - "/proc"
+      - "/sys"
+      - "/dev"
+      - "/home"
+      - "/root"
+      - "/tmp"
+      - "/var"
