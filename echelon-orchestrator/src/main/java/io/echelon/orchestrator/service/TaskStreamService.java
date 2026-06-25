@@ -8,6 +8,7 @@ import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
@@ -24,7 +25,7 @@ public class TaskStreamService {
         this.auditService = auditService;
     }
 
-    public String pushTask(String stream, Task task) {
+    public RecordId pushTask(String stream, Task task) {
         var record = ObjectRecord.create(stream, task);
         var result = redisTemplate.opsForStream().add(record);
         log.info("Task {} pushed to stream {}: {}", task.taskId(), stream, result);
@@ -32,10 +33,11 @@ public class TaskStreamService {
         return result;
     }
 
-    public List<MapRecord<String, Object, Object>> readTasks(String stream, String consumerGroup, String consumer, int count) {
-        var readArgs = StreamReadOptions.empty().count(count);
-        var offset = StreamOffset.create(stream, ReadOffset.lastConsumed(consumerGroup));
-        return redisTemplate.opsForStream().read(consumerGroup, consumer, readArgs, offset);
+    public List<MapRecord<String, Object, Object>> readTasks(String stream, String consumerGroup, String consumerName, int count) {
+        var consumer = Consumer.from(consumerGroup, consumerName);
+        var options = StreamReadOptions.empty().count(count);
+        var offset = StreamOffset.create(stream, ReadOffset.lastConsumed());
+        return redisTemplate.opsForStream().read(consumer, options, offset);
     }
 
     public void acknowledge(String stream, String consumerGroup, String recordId) {
@@ -58,12 +60,12 @@ public class TaskStreamService {
     public void heartbeat(String agentId) {
         var key = "agent:" + agentId + ":heartbeat";
         redisTemplate.opsForValue().set(key, Instant.now().toString());
-        redisTemplate.expire(key, java.time.Duration.ofSeconds(30));
+        redisTemplate.expire(key, Duration.ofSeconds(30));
     }
 
     public boolean acquireLock(String lockName, String owner, int ttlSeconds) {
         var key = "lock:" + lockName;
-        var acquired = redisTemplate.opsForValue().setIfAbsent(key, owner, java.time.Duration.ofSeconds(ttlSeconds));
+        var acquired = redisTemplate.opsForValue().setIfAbsent(key, owner, Duration.ofSeconds(ttlSeconds));
         if (Boolean.TRUE.equals(acquired)) {
             auditService.log("lock_acquired", Map.of("lock", lockName, "owner", owner));
             return true;
