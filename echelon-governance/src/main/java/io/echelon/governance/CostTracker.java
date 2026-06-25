@@ -2,7 +2,7 @@ package io.echelon.governance;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-public record CostEntry(String taskId, String agent, String model, long tokens, double cost, Instant timestamp) {}
+record CostEntry(String taskId, String agent, String model, long tokens, double cost, Instant timestamp) {}
 public class CostTracker {
     private final List<CostEntry> entries = new CopyOnWriteArrayList<>();
     public void record(CostEntry entry) { entries.add(entry); }
