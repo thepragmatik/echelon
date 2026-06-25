@@ -21,14 +21,14 @@ jobs:
       - name: Build and push builder image
         uses: docker/build-push-action@v6
         with:
-          context: echelon-docker
-          file: echelon-docker/Dockerfile.builder
+          context: .
+          file: ./echelon-docker/Dockerfile.builder
           push: ${{ github.event_name != "pull_request" }}
           tags: ghcr.io/${{ github.repository }}/builder:latest
       - name: Build and push reviewer image
         uses: docker/build-push-action@v6
         with:
-          context: echelon-docker
-          file: echelon-docker/Dockerfile.reviewer
+          context: .
+          file: ./echelon-docker/Dockerfile.reviewer
           push: ${{ github.event_name != "pull_request" }}
           tags: ghcr.io/${{ github.repository }}/reviewer:latest
