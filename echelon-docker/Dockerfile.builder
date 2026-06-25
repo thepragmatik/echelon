@@ -1,0 +1,6 @@
+FROM eclipse-temurin:21-jdk
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl git jq maven gh \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /workspace
+ENTRYPOINT ["/bin/bash"]
