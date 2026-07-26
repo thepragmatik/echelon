@@ -9,6 +9,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.junit.jupiter.api.Tag;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
@@ -16,7 +17,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Testcontainers
-@Disabled("Requires Docker — run locally. Unit tests (18) cover all core logic.")
+@Tag("integration")
+@Disabled("Requires Docker. Run with -DrunITs=true in CI.")
 class GovernanceIntegrationTest {
 
     @Container
