@@ -51,7 +51,7 @@ class GovernanceIntegrationTest {
         policyEngine = new PolicyEngine(loader);
     }
 
-    @AfterEach
+    @BeforeEach
     void cleanRedis() {
         redisTemplate.getConnectionFactory().getConnection().serverCommands().flushAll();
     }

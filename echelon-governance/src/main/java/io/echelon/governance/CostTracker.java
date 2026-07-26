@@ -1,10 +1,10 @@
 package io.echelon.governance;
 
-import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -17,8 +17,19 @@ public class CostTracker {
     }
 
     public void record(CostAttribution entry) {
+        Map<String, String> fields = new HashMap<>();
+        fields.put("taskId", entry.taskId());
+        fields.put("agentId", entry.agentId());
+        fields.put("model", entry.model());
+        fields.put("provider", entry.provider());
+        fields.put("tokens", String.valueOf(entry.tokens()));
+        fields.put("cost", String.valueOf(entry.cost()));
+        fields.put("timestamp", entry.timestamp().toString());
+        if (entry.tags() != null) {
+            entry.tags().forEach((k, v) -> fields.put("tag:" + k, v));
+        }
         var record = StreamRecords.newRecord()
-            .ofObject(entry)
+            .ofMap(fields)
             .withStreamKey(STREAM_KEY);
         redis.opsForStream().add(record);
     }
