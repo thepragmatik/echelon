@@ -1,0 +1,138 @@
+# Agent-type deontic policies for Echelon governance
+# Each role lists three deontic modalities:
+#   permits: actions explicitly allowed (default-deny: anything not listed is denied)
+#   embargoes: actions explicitly forbidden (overrides permits)
+#   burdens: actions that require additional obligations (e.g., approval, logging)
+#
+# Loaded by PolicyEngine at application startup.
+# See ADR-001 for the sealed interface design and evaluation semantics.
+#
+# Semantics:
+#   1. If any Embargo matches the (role, action) pair → DENIED
+#   2. If no Permit matches the (role, action) pair → DENIED (default-deny)
+#   3. If any Burden matches → GRANTED with obligations list
+#   4. If only Permit matches (no Burden) → GRANTED with empty obligations
+#
+# Priority: Embargo > Burden > Permit
+
+roles:
+  implementer:
+    description: >
+      Ephemeral worker that writes source code, runs tests, and commits
+      to feature branches. Never writes to main. Always compiles before commit.
+    permits:
+      - action: "write_source"
+      - action: "read_source"
+      - action: "run_tests"
+      - action: "commit_feature_branch"
+    embargoes:
+      - action: "write_to_main"
+        reason: "Only orchestrator or human may merge to main"
+      - action: "deploy"
+        reason: "Implementers have no deployment authority"
+      - action: "approve_pr"
+        reason: "Implementers may not approve their own work"
+    burdens:
+      - action: "commit_feature_branch"
+        obligations:
+          - "create_pr"
+          - "pass_tests"
+          - "compile_before_commit"
+      - action: "write_source"
+        obligations:
+          - "log_change"
+
+  reviewer:
+    description: >
+      Ephemeral worker that reads diffs, provides structured code review
+      verdicts, and can approve or request changes. Never writes source
+      or merges PRs.
+    permits:
+      - action: "read_source"
+      - action: "read_diff"
+      - action: "comment_on_pr"
+      - action: "approve_pr"
+      - action: "request_changes"
+    embargoes:
+      - action: "write_source"
+        reason: "Reviewers review — they do not write code"
+      - action: "merge_pr"
+        reason: "Only orchestrator may merge after review"
+      - action: "deploy"
+        reason: "Reviewers have no deployment authority"
+    burdens:
+      - action: "approve_pr"
+        obligations:
+          - "log_verdict"
+          - "require_second_review"
+      - action: "request_changes"
+        obligations:
+          - "log_verdict"
+          - "describe_required_fix"
+
+  architect:
+    description: >
+      Persistent role that reads source, writes documentation and ADRs,
+      and approves PRs but never modifies source code directly.
+    permits:
+      - action: "read_source"
+      - action: "read_diff"
+      - action: "write_docs"
+      - action: "write_adr"
+      - action: "approve_pr"
+    embargoes:
+      - action: "write_source"
+        reason: "Architects design — they do not implement"
+      - action: "merge_pr"
+        reason: "Only orchestrator may merge"
+      - action: "deploy"
+        reason: "Architects have no deployment authority"
+    burdens:
+      - action: "approve_pr"
+        obligations:
+          - "log_verdict"
+          - "verify_architecture_compliance"
+
+  orchestrator:
+    description: >
+      Durable manager that dispatches tasks to workers, escalates issues,
+      and has the broadest authority including merge and deployment decisions.
+    permits:
+      - action: "read_all"
+      - action: "delegate_task"
+      - action: "escalate"
+      - action: "merge_pr"
+      - action: "release"
+    embargoes:
+      - action: "write_source"
+        reason: "Orchestrator orchestrates — not a code writer"
+      - action: "skip_review"
+        reason: "All merges require at least one approval"
+    burdens:
+      - action: "merge_pr"
+        obligations:
+          - "verify_at_least_one_approval"
+          - "log_merge"
+          - "notify_team"
+      - action: "release"
+        obligations:
+          - "require_human_approval"
+          - "verify_all_tests_pass"
+          - "create_release_tag"
+      - action: "escalate"
+        obligations:
+          - "log_escalation"
+          - "notify_human_operator"
+
+# Schema note for policy authors:
+#   permits: [action: string]+
+#   embargoes: [action: string, reason: string]*
+#   burdens: [action: string, obligations: string[]]+
+#
+# Default-deny applies to any action not in the permits list.
+# Embargoes override permits — if an action is both permitted and embargoed,
+# the embargo takes precedence (fail-closed).
+#
+# Adding a new action to permits requires a code deployment if the action
+# also needs new evaluation logic in PolicyEngine. Action strings are
+# validated against a known set during startup.
