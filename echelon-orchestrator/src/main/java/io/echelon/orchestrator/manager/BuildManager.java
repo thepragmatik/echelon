@@ -3,6 +3,9 @@ package io.echelon.orchestrator.manager;
 import io.echelon.orchestrator.model.Task.TaskStatus;
 import io.echelon.orchestrator.service.TaskStreamService;
 import io.echelon.orchestrator.service.AuditService;
+import io.echelon.governance.token.PolicyEngine;
+import io.echelon.governance.token.TokenAction;
+import io.echelon.governance.token.EvaluationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.stream.MapRecord;
@@ -25,11 +28,13 @@ public class BuildManager {
 
     private final TaskStreamService taskStream;
     private final AuditService audit;
+    private final PolicyEngine policyEngine;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-    public BuildManager(TaskStreamService taskStream, AuditService audit) {
+    public BuildManager(TaskStreamService taskStream, AuditService audit, PolicyEngine policyEngine) {
         this.taskStream = taskStream;
         this.audit = audit;
+        this.policyEngine = policyEngine;
     }
 
     public void start() {
@@ -80,7 +85,9 @@ public class BuildManager {
     }
 
     boolean permit(String action, String role) {
-        return true;
+        var tokenAction = new TokenAction(action, role, "build");
+        var result = policyEngine.evaluate(tokenAction);
+        return result.verdict() == EvaluationResult.Verdict.ALLOW;
     }
 
     public void shutdown() {
