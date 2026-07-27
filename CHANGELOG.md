@@ -25,3 +25,19 @@
 
 ### Fixed
 - `pier_delegate`/`pier_session` UnboundLocalError — walrus-operator scoping bug in handler lambdas
+
+## [0.3.0-alpha] — 2026-07-27
+
+### Added
+- **Maven profile for integration tests** — `mvn test -DrunITs=true` activates integration tests via `<profile><id>integration</id>`. Replaces hardcoded surefire exclusion.
+- **CI integration test job** — New `integration` job on GitHub Actions (ubuntu-latest, Docker) runs after `build` passes.
+- **GitHub Issue traceability** — Issues #67, #68, #69 created for all MVP 1 tasks.
+
+### Fixed
+- **GovernanceIntegrationTest CI failures** — Fixed 3 root causes: @Nested test isolation (moved cleanRedis to @BeforeEach), CostTracker stream serialization (switched from ObjectRecord to MapRecord).
+- **@Tag("integration") annotation** — Tests tagged for profile-based activation.
+
+### Changed
+- `.github/workflows/ci.yml` — Added `integration` job with `-DrunITs=true`.
+- `echelon-governance/pom.xml` — Removed `<exclude>**/*IntegrationTest.java</exclude>`, replaced with Maven profile.
+- `CostTracker.java` — Switched from ObjectRecord to MapRecord for Redis Streams.
