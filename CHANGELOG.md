@@ -41,3 +41,29 @@
 - `.github/workflows/ci.yml` — Added `integration` job with `-DrunITs=true`.
 - `echelon-governance/pom.xml` — Removed `<exclude>**/*IntegrationTest.java</exclude>`, replaced with Maven profile.
 - `CostTracker.java` — Switched from ObjectRecord to MapRecord for Redis Streams.
+
+## [0.3.1] — 2026-07-27
+
+### Added (MVP 2 — Security + Docker)
+- **Governance JAR wired into containers** — Builder/reviewer Dockerfiles now run the governance-enabled uber-JAR with Spring Boot entrypoint (PR #78)
+- **Seccomp audit** — default.json (Docker default, no changes needed) and reviewer-strict.json (verified JVM-compatible) audited (PR #85)
+- **Filesystem allowlisting** — Per-container write/read/block policies for builder, reviewer, and privacy-router (PR #88)
+- **Network default-deny policy** — Explicit ingress/egress rules. Privacy Router is sole egress point (PR #87)
+- **Privacy Router health check** — docker-compose healthcheck + credential scoping policy per container type (PR #89)
+- **GitHub Pages docs site** — MkDocs Material theme, auto-published on merge (PR #86)
+
+### Closed Issues
+- #72 Wire governance JAR
+- #73 Seccomp audit
+- #74 Filesystem allowlisting
+- #75 Network default-deny
+- #76 Privacy Router health
+- #77 GitHub Pages + docs
+
+### MVP 3 (In Progress)
+- #79 common.sh shared library
+- #80 Fix BuildManager stub
+- #81 implement.sh with Pi agent
+- #82 review-adversarial.sh
+- #83 review-quality.sh
+- #84 Redis stream setup
