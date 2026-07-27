@@ -1,0 +1,22 @@
+site_name: Echelon
+site_description: Hierarchical Docker-based zero-trust agent swarm orchestration
+repo_url: https://github.com/thepragmatik/echelon
+theme: material
+nav:
+  - Home: index.md
+  - Architecture:
+    - Overview: whitepaper.md
+    - Deontic Tokens (ADR-001): architecture/adr-001-deontic-tokens.md
+    - Redis Budget/Cost (ADR-002): architecture/adr-002-redis-budget-streams.md
+    - Class Diagram: architecture/governance-class-diagram.md
+  - Research:
+    - Governance Synthesis: research/deontic-governance-synthesis.md
+    - Roadmap Audit: research/roadmap-audit.md
+    - MVP3 Plan: research/mvp3-plan.md
+  - Development: developer-guide.md
+  - Operations: runbook.md
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
