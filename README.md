@@ -7,8 +7,9 @@ Built with Java 21+, Spring Boot 3.4+, Maven, Docker, and Redis.
 - Phase 0 (Foundation): Complete
 - Phase 1 (Backbone): Complete
 - Phase 2 (Governance): Complete
-- Phase 3 (Optimization): In progress
+- Phase 3 (Security): Complete
 - Phase 4 (Documentation): In progress
+- Phase 5 (Agent Pipeline): Planned
 
 ## Quick Start
   docker compose -f echelon-docker/docker-compose.yml up -d
