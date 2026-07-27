@@ -1,5 +1,7 @@
 package io.echelon.orchestrator.config;
 
+import io.micrometer.core.instrument.MeterRegistry;
+
 import io.echelon.governance.token.PolicyEngine;
 import io.echelon.governance.token.PolicyStore;
 import io.echelon.governance.token.YamlPolicyLoader;
@@ -15,7 +17,7 @@ public class GovernanceConfig {
     }
 
     @Bean
-    public PolicyEngine policyEngine(PolicyStore policyStore) {
-        return new PolicyEngine(policyStore);
+    public PolicyEngine policyEngine(PolicyStore policyStore, MeterRegistry meterRegistry) {
+        return new PolicyEngine(policyStore, meterRegistry);
     }
 }

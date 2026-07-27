@@ -1,6 +1,6 @@
 package io.echelon.governance;
-
 import io.echelon.governance.token.*;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.*;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -49,7 +49,7 @@ class GovernanceIntegrationTest {
         costTracker = new CostTracker(redisTemplate);
 
         var loader = new YamlPolicyLoader("policies/agent-types.yaml");
-        policyEngine = new PolicyEngine(loader);
+        policyEngine = new PolicyEngine(loader, new SimpleMeterRegistry());
     }
 
     @BeforeEach
