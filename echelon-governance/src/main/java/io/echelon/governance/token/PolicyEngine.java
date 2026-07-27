@@ -23,6 +23,12 @@ public class PolicyEngine {
         return EvaluationResult.DENY("No matching permit (default-deny)", null);
     }
 
+    public void refreshPolicies() {
+        if (policyStore instanceof RedisPolicyStore) {
+            ((RedisPolicyStore) policyStore).refresh();
+        }
+    }
+
     private boolean matches(DeonticToken token, TokenAction action) {
         return token.action().equals(action.action())
             && token.roles().contains(action.role());
