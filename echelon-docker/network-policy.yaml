@@ -1,26 +1,66 @@
-# Echelon Network Policy
-# Default-deny for all containers except through Privacy Router
+# Echelon Network Default-Deny Policy
+# =====================================
+# All inter-container communication must be explicitly allowed.
+# Privacy Router is the sole egress point to the internet.
+# Any container requiring external API access must route through privacy-router:8080.
 
-services:
-  redis:
-    network: echelon-internal
-    egress: all  # limited to internal network
+networks:
+  echelon-internal:
+    driver: bridge
+    # Default: allow internal traffic on explicitly opened ports
+    # Deny all external egress except through Privacy Router
 
-  builder:
-    network: echelon-internal
-    egress:
-      - api.github.com:443
-      - registry.maven.org:443
-      - repo1.maven.org:443
-      - plugins.gradle.org:443
+ingress:
+  # Redis Primary accepts connections from replicas, sentinel, and workers
+  - target: redis-primary
+    from:
+      - redis-replica
+      - redis-sentinel
+      - builder
+      - reviewer
+    ports: [6379]
+    protocol: tcp
+    purpose: "Task streams, budget state, cost attribution, replication"
 
-  reviewer:
-    network: echelon-internal
-    egress: []  # zero direct egress — all API calls through Privacy Router
+  # Redis Sentinel accepts monitoring connections
+  - target: redis-sentinel
+    from:
+      - redis-primary
+      - redis-replica
+    ports: [26379]
+    protocol: tcp
+    purpose: "Sentinel quorum and failover coordination"
 
-  privacy-router:
-    network: echelon-internal
-    egress:
-      - api.deepseek.com:443
-      - pass.wafer.ai:443
-      - api.github.com:443
+  # Privacy Router accepts LLM proxy requests from workers
+  - target: privacy-router
+    from:
+      - builder
+      - reviewer
+    ports: [8080]
+    protocol: tcp
+    purpose: "LLM API proxy — sole egress conduit"
+
+egress:
+  # Privacy Router is the ONLY container with external egress
+  - source: privacy-router
+    to: external
+    ports: [443]
+    protocol: tcp
+    purpose: "External LLM API calls (DeepSeek, Wafer, GitHub API)"
+
+  # All other containers: zero direct egress
+  # Builder, Reviewer, Redis nodes route all external traffic through privacy-router:8080
+  - source:
+      - builder
+      - reviewer
+      - redis-primary
+      - redis-replica
+      - redis-sentinel
+    to: external
+    action: deny
+    purpose: "Enforce Privacy Router as sole egress point"
+
+# Default: deny all inter-container traffic not explicitly listed above
+default:
+  ingress: deny
+  egress: deny
