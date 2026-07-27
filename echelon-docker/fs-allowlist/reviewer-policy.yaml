@@ -1,0 +1,25 @@
+# Reviewer container filesystem policy
+# Reviewers inspect code changes and produce review comments.
+# They require read-only access to the workspace and no write capability.
+
+# Read-write paths (agent can create/modify files here):
+writable:
+  - /work          # Review scratch space and temp output
+
+# Read-only paths (agent can read but not write):
+readonly:
+  - /workspace     # Source code repository (mounted :ro)
+  - /usr/share/echelon  # Governance policies and shared configs
+
+# Blocked paths (agent cannot access at all):
+blocked:
+  - /etc
+  - /proc
+  - /sys
+  - /dev
+  - /home
+  - /root
+  - /tmp
+  - /var
+  - /root/.ssh
+  - /root/.aws

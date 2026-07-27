@@ -1,0 +1,24 @@
+# Builder container filesystem policy
+# The builder agent compiles, tests, and packages code.
+# It needs limited write access for build artifacts and caches.
+
+# Read-write paths (agent can create/modify files here):
+writable:
+  - /work          # Build output and intermediate artifacts
+  - /root/.m2      # Maven repository cache (downloaded dependencies)
+
+# Read-only paths (agent can read but not write):
+readonly:
+  - /workspace     # Source code repository (cloned externally, mounted :ro)
+  - /usr/share/echelon  # Governance policies and shared configs
+
+# Blocked paths (agent cannot access at all):
+blocked:
+  - /etc
+  - /proc
+  - /sys
+  - /dev
+  - /home
+  - /root/.ssh
+  - /root/.aws
+  - /var/log
