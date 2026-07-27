@@ -1,0 +1,22 @@
+# Privacy Router container filesystem policy
+# The privacy router proxies LLM API requests, scrubbing sensitive data.
+# It is a stateless proxy with no write access.
+
+# Read-write paths (agent can create/modify files here):
+writable: []
+
+# Read-only paths (agent can read but not write):
+readonly:
+  - /usr/local/etc/haproxy  # HAProxy configuration
+
+# Blocked paths (agent cannot access at all):
+blocked:
+  - /etc
+  - /proc
+  - /sys
+  - /dev
+  - /home
+  - /root
+  - /tmp
+  - /var
+  - /workspace
