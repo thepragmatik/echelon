@@ -1,8 +1,11 @@
 FROM haproxy:latest
 
-# Install curl for healthcheck support
+# Switch to root for package installation (haproxy:latest runs as non-root user)
+USER root
 RUN apt-get update && apt-get install -y --no-install-recommends curl && \
     rm -rf /var/lib/apt/lists/*
+# Switch back to the default haproxy user
+USER haproxy
 
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 EXPOSE 8080
