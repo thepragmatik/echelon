@@ -31,7 +31,7 @@ nav:
     - Security: user-guide/security.md
     - Operations: user-guide/operations.md
   - Architecture:
-    - Whitepaper: architecture/whitepaper.md
+    - Overview: whitepaper.md
     - "ADR-001: Deontic Tokens": architecture/adr-001-deontic-tokens.md
     - "ADR-002: Redis Budget/Cost": architecture/adr-002-redis-budget-streams.md
     - Class Diagram: architecture/governance-class-diagram.md
