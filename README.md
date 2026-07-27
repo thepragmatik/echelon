@@ -58,8 +58,9 @@ On the **security** front, Echelon applies defense-in-depth at every layer: secc
 | Phase 1 | Backbone (Redis streams, BuildManager wiring, CI) | ✅ Complete |
 | Phase 2 | Governance (deontic engine, cost tracking, ADRs) | ✅ Complete |
 | Phase 3 | Security (seccomp, fs allowlisting, network deny, credential isolation) | ✅ Complete |
-| Phase 4 | Documentation (MkDocs, GitHub Pages, architecture docs) | 🔄 In progress |
+| Phase 4 | L7 Policies + Skills (agent skills, L7 enforcement, RedisPolicyStore) | ✅ Complete |
 | Phase 5 | Agent Pipeline (implement.sh, review pipeline, common.sh) | ✅ Complete |
+| Phase 6 | Observability (Prometheus, backup/DR, health checks) | 🔄 Planned |
 
 ---
 
