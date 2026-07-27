@@ -10,7 +10,7 @@
     </parent>
     <artifactId>echelon-governance</artifactId>
     <properties>
-        <testcontainers.version>1.21.3</testcontainers.version>
+        <testcontainers.version>1.21.4</testcontainers.version>
     </properties>
     <dependencies>
         <dependency>
