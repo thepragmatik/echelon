@@ -1,13 +1,14 @@
-/* Echelon Custom Theme — Deep Teal + Amber */
+/* Echelon Custom Theme — Warm Coral + Rose */
 :root {
-  --md-primary-fg-color: #00585E;
-  --md-primary-fg-color--light: #007A82;
-  --md-primary-fg-color--dark: #003B3F;
-  --md-accent-fg-color: #FF8C00;
-  --md-accent-fg-color--light: #FFA940;
-  --md-accent-fg-color--dark: #CC7000;
-  --md-default-fg-color: #2C3E50;
-  --md-typeset-a-color: #007A82;
+  --md-primary-fg-color: #E85D3A;
+  --md-primary-fg-color--light: #F4977A;
+  --md-primary-fg-color--dark: #C94D2E;
+  --md-accent-fg-color: #E8A0BF;
+  --md-accent-fg-color--light: #F0C0D4;
+  --md-accent-fg-color--dark: #D080A0;
+  --md-default-fg-color: #2D3436;
+  --md-default-bg-color: #FFF8F0;
+  --md-typeset-a-color: #E85D3A;
 }
 
 /* Typography */
@@ -21,7 +22,7 @@
 .md-typeset h1 {
   font-weight: 700;
   font-size: 2rem;
-  color: var(--md-primary-fg-color);
+  color: var(--md-primary-fg-color--dark);
   margin-bottom: 0.5rem;
 }
 
@@ -39,14 +40,14 @@
   color: var(--md-primary-fg-color);
 }
 
-/* Header */
+/* Header gradient — warm coral to deep terracotta */
 .md-header {
-  background: linear-gradient(135deg, var(--md-primary-fg-color) 0%, var(--md-primary-fg-color--dark) 100%);
+  background: linear-gradient(135deg, #E85D3A 0%, #C94D2E 100%);
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .md-tabs {
-  background: var(--md-primary-fg-color--dark);
+  background: #C94D2E;
 }
 
 /* Code blocks */
@@ -92,26 +93,17 @@
   text-decoration: underline;
 }
 
-/* Amber accent on active nav items */
+/* Active nav */
 .md-nav__item .md-nav__link--active {
-  color: var(--md-accent-fg-color);
+  color: var(--md-primary-fg-color);
   font-weight: 600;
 }
 
-/* Buttons */
-.md-typeset .md-button {
-  border-radius: 6px;
-  font-weight: 600;
-  border-width: 2px;
-}
-
-.md-typeset .md-button--primary {
-  background: var(--md-primary-fg-color);
-  border-color: var(--md-primary-fg-color);
-  color: white !important;
-}
-
-.md-typeset .md-button--primary:hover {
-  background: var(--md-primary-fg-color--light);
-  border-color: var(--md-primary-fg-color--light);
+/* Mermaid diagrams — subtle background */
+.mermaid {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  margin: 16px 0;
 }

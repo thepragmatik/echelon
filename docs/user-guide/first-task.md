@@ -2,6 +2,31 @@
 
 This guide walks through creating an issue, having Echelon process it, and reviewing the result.
 
+## Task Lifecycle
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant GH as GitHub
+    participant BM as BuildManager
+    participant PE as PolicyEngine
+    participant IMP as implement.sh
+    participant RM as ReviewManager
+
+    User->>GH: Create Issue
+    User->>BM: Push to tasks:build
+    BM->>PE: Check permit?
+    PE-->>BM: ✅ ALLOWED
+    BM->>IMP: Spawn worker
+    IMP->>GH: Clone repo
+    IMP->>GH: Generate code
+    IMP->>GH: Create PR
+    GH->>RM: Push to tasks:review
+    RM->>IMP: Spawn reviewers
+    IMP-->>RM: ✅ PASS
+    User->>GH: Merge PR
+```
+
 ## Step 1: Create a GitHub Issue
 
 ```bash
