@@ -60,7 +60,7 @@ On the **security** front, Echelon applies defense-in-depth at every layer: secc
 | Phase 3 | Security (seccomp, fs allowlisting, network deny, credential isolation) | ✅ Complete |
 | Phase 4 | L7 Policies + Skills (agent skills, L7 enforcement, RedisPolicyStore) | ✅ Complete |
 | Phase 5 | Agent Pipeline (implement.sh, review pipeline, common.sh) | ✅ Complete |
-| Phase 6 | Observability (Prometheus, backup/DR, health checks) | 🔄 Planned |
+| Phase 6 | Observability (Prometheus, backup/DR, health checks) | ✅ Complete |
 
 ---
 
