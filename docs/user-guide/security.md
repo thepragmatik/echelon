@@ -5,6 +5,20 @@ Echelon implements zero-trust security at every layer.
 ## Defense in Depth
 
 ```mermaid
+%%{init: {
+  'layout': 'elk',
+  'look': 'neo',
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#E85D3A',
+    'primaryTextColor': '#FFFFFF',
+    'primaryBorderColor': '#C94D2E',
+    'lineColor': '#E8A0BF',
+    'secondaryColor': '#FFF8F0',
+    'tertiaryColor': '#F0C0D4',
+    'fontFamily': 'Inter, sans-serif'
+  }
+}}%%
 graph BT
     subgraph "Layer 4: Credential Isolation"
         CI[Privacy Router<br/>No agent holds API keys]

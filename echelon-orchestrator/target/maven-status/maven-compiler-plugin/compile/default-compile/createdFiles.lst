@@ -1,6 +1,6 @@
 io/echelon/orchestrator/config/BuildManagerConfig.class
-io/echelon/orchestrator/manager/BuildManager.class
 io/echelon/orchestrator/config/RedisConfig.class
+io/echelon/orchestrator/manager/BuildManager.class
 io/echelon/orchestrator/service/TaskStreamService.class
 io/echelon/orchestrator/EchelonApplication.class
 io/echelon/orchestrator/service/TaskStateService.class
