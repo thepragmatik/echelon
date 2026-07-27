@@ -4,6 +4,7 @@ services:
     ports: ["6379:6379"]
     networks: [echelon-internal]
     volumes: ["redis-data:/data"]
+    command: ["redis-server", "--appendonly", "yes", "--save", "900 1", "--save", "300 10", "--save", "60 10000"]
     healthcheck: {test:["CMD","redis-cli","ping"],interval:5s,timeout:3s,retries:5}
 
   redis-replica:
@@ -26,6 +27,7 @@ services:
     networks: [echelon-internal]
     depends_on: [redis-primary]
     profiles: [managers]
+    healthcheck: {test:["CMD","curl","-sf","http://localhost:8080/actuator/health"],interval:30s,timeout:10s,retries:3,start_period:40s}
 
   reviewer:
     build: {context:..,dockerfile:echelon-docker/Dockerfile.reviewer}
@@ -35,13 +37,14 @@ services:
     networks: [echelon-internal]
     depends_on: [redis-primary]
     profiles: [managers]
+    healthcheck: {test:["CMD","curl","-sf","http://localhost:8080/actuator/health"],interval:30s,timeout:10s,retries:3,start_period:40s}
 
   privacy-router:
     build: {context:.,dockerfile:Dockerfile.privacy-router}
     ports: ["8080:8080"]
     environment: [DEEPSEEK_API_KEY=***,WAFER_API_KEY=***]
     networks: [echelon-internal]
-    healthcheck: {test:["CMD","curl","-f","http://localhost:8080/health"],interval:30s,timeout:10s,retries:3}
+    healthcheck: {test:["CMD","curl","-sf","http://localhost:8080/health"],interval:30s,timeout:10s,retries:3,start_period:15s}
 
 networks:
   echelon-internal: {driver:bridge}
