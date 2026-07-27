@@ -1,18 +1,44 @@
 site_name: Echelon
 site_description: Hierarchical Docker-based zero-trust agent swarm orchestration
 repo_url: https://github.com/thepragmatik/echelon
-theme: material
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: amber
+  font:
+    text: Inter
+    code: JetBrains Mono
+  logo: https://raw.githubusercontent.com/thepragmatik/echelon/main/docs/assets/echelon-icon.svg
+  favicon: https://raw.githubusercontent.com/thepragmatik/echelon/main/docs/assets/echelon-icon.svg
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - header.autohide
+    - content.code.copy
+    - search.highlight
+extra_css:
+  - stylesheets/extra.css
 nav:
   - Home: index.md
+  - User Guide:
+    - Quick Start: user-guide/quickstart.md
+    - Architecture Overview: user-guide/architecture.md
+    - Governance Model: user-guide/governance.md
+    - Running Your First Task: user-guide/first-task.md
+    - Review Pipeline: user-guide/review-pipeline.md
+    - Security: user-guide/security.md
+    - Operations: user-guide/operations.md
   - Architecture:
-    - Overview: whitepaper.md
-    - Deontic Tokens (ADR-001): architecture/adr-001-deontic-tokens.md
-    - Redis Budget/Cost (ADR-002): architecture/adr-002-redis-budget-streams.md
+    - Whitepaper: architecture/whitepaper.md
+    - "ADR-001: Deontic Tokens": architecture/adr-001-deontic-tokens.md
+    - "ADR-002: Redis Budget/Cost": architecture/adr-002-redis-budget-streams.md
     - Class Diagram: architecture/governance-class-diagram.md
   - Research:
     - Governance Synthesis: research/deontic-governance-synthesis.md
     - Roadmap Audit: research/roadmap-audit.md
-    - MVP3 Plan: research/mvp3-plan.md
+    - "MVP 3 Plan": research/mvp3-plan.md
   - Development: developer-guide.md
   - Operations: runbook.md
 markdown_extensions:
@@ -20,3 +46,10 @@ markdown_extensions:
   - codehilite
   - toc:
       permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
