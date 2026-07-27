@@ -20,7 +20,7 @@ services:
     depends_on: [redis-primary,redis-replica]
 
   builder:
-    build: {context:.,dockerfile:Dockerfile.builder}
+    build: {context:..,dockerfile:echelon-docker/Dockerfile.builder}
     volumes: [../:/workspace:ro,/tmp/echelon-work:/work:rw,~/.m2:/root/.m2:ro]
     environment: [GH_TOKEN=***,LLM_PROXY_URL=http://privacy-router:8080]
     networks: [echelon-internal]
@@ -28,7 +28,7 @@ services:
     profiles: [managers]
 
   reviewer:
-    build: {context:.,dockerfile:Dockerfile.reviewer}
+    build: {context:..,dockerfile:echelon-docker/Dockerfile.reviewer}
     security_opt: [seccomp:./seccomp/reviewer-strict.json]
     volumes: [../:/workspace:ro,/tmp/echelon-work:/work:rw]
     environment: [GH_TOKEN=***,LLM_PROXY_URL=http://privacy-router:8080]
