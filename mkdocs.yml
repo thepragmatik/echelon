@@ -4,8 +4,8 @@ repo_url: https://github.com/thepragmatik/echelon
 theme:
   name: material
   palette:
-    primary: teal
-    accent: amber
+    primary: custom
+    accent: custom
   font:
     text: Inter
     code: JetBrains Mono
@@ -47,7 +47,11 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.emoji:

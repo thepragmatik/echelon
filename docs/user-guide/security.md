@@ -2,6 +2,28 @@
 
 Echelon implements zero-trust security at every layer.
 
+## Defense in Depth
+
+```mermaid
+graph BT
+    subgraph "Layer 4: Credential Isolation"
+        CI[Privacy Router<br/>No agent holds API keys]
+    end
+    subgraph "Layer 3: Network"
+        ND[Default-deny egress<br/>Router is sole gateway]
+    end
+    subgraph "Layer 2: Filesystem"
+        FA[Read-only mounts<br/>Allowlisted paths]
+    end
+    subgraph "Layer 1: System Calls"
+        SC[Seccomp profiles<br/>Blocked: mount, ptrace, bpf]
+    end
+    subgraph "Layer 0: Governance"
+        DT[Deontic Tokens<br/>Permit/Embargo/Burden]
+    end
+    DT --- FA --- ND --- CI
+```
+
 ## Zero-Trust Principles
 
 | Principle | Implementation |

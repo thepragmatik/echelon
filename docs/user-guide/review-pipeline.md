@@ -2,6 +2,22 @@
 
 Every PR created by an implementer agent passes through a dual-review pipeline before merging.
 
+## Dual Review Flow
+
+```mermaid
+flowchart TB
+    PR[GitHub PR Created] --> TASKS{tasks:review}
+    TASKS --> ADV[Adversarial Review]
+    TASKS --> QLT[Quality Review]
+    ADV -->|Security check| V1{Verdict}
+    QLT -->|Code quality check| V2{Verdict}
+    V1 -->|PASS + PASS| APPROVED[✅ PR Ready to Merge]
+    V2 -->|PASS + PASS| APPROVED
+    V1 -->|FAIL| BLOCKED[❌ Block PR]
+    V2 -->|FAIL| BLOCKED
+    APPROVED --> MERGE[Auto-merge enabled]
+```
+
 ## Pipeline Stages
 
 ```text
