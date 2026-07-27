@@ -186,6 +186,26 @@ ADD to blocked list:        perf_event_open, bpf
 
 ---
 
+## 7. Remediation (2026-07-27)
+
+All audit findings have been addressed in the same commit:
+
+| Finding | Status | Change |
+|---------|--------|--------|
+| `default.json` misnamed (allow-all, not Docker's default) | ✅ **Fixed** | Renamed to `permissive.json` — eliminates false confidence |
+| `reviewer-strict.json`: `clone`/`clone3` blocked breaking JVM thread creation | ✅ **Fixed** | Removed `clone`, `clone3` from blocked list |
+| `reviewer-strict.json`: `socket`/`connect` blocked breaking Privacy Router proxy calls | ✅ **Fixed** | Removed `socket`, `connect` from blocked list |
+| `reviewer-strict.json`: `execveat` blocked fragile for subprocess paths | ✅ **Fixed** | Removed `execveat` from blocked list |
+| `reviewer-strict.json`: `perf_event_open` not blocked (side-channel leak) | ✅ **Fixed** | Added to blocked list |
+| `reviewer-strict.json`: `bpf` not blocked (kernel introspection) | ✅ **Fixed** | Added to blocked list |
+
+**Deferred to follow-up issues:**
+- Docker network-layer egress restriction for reviewer (SDN policy, not seccomp)
+- Allowlist-based profile (`defaultAction: SCMP_ACT_ERRNO`) for Phase 2
+- Testcontainers integration test for seccomp profile compatibility
+
+---
+
 ## 6. References
 
 - Docker default seccomp profile (moby v27.4.1): https://github.com/moby/moby/blob/master/profiles/seccomp/default.json
