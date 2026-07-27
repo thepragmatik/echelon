@@ -35,7 +35,11 @@ public class CostTracker {
     }
 
     public double totalCost() {
-        var info = redis.opsForStream().info(STREAM_KEY);
-        return info != null ? info.streamLength() * 0.001 : 0.0;
+        try {
+            var info = redis.opsForStream().info(STREAM_KEY);
+            return info != null ? info.streamLength() * 0.001 : 0.0;
+        } catch (Exception e) {
+            return 0.0;
+        }
     }
 }
