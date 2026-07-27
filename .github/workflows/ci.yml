@@ -21,7 +21,7 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == pull_request
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -31,4 +31,4 @@ jobs:
           distribution: temurin
           cache: maven
       - name: Integration Tests (Docker)
-        run: mvn test -pl echelon-governance -DrunITs=true
+        run: mvn verify -Pintegration -pl echelon-governance
