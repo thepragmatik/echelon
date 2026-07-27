@@ -73,10 +73,10 @@ class GovernanceIntegrationTest {
 
         @Test
         void deductExceedsMonthlyAgentCap() {
-            budgetManager.deduct("task-1", "agent-1", "project-1", 250000);
-            budgetManager.deduct("task-2", "agent-1", "project-1", 250000);
-            // Third deduct should exceed the 500k monthly cap
-            assertFalse(budgetManager.deduct("task-3", "agent-1", "project-1", 1));
+            for (int i = 0; i < 16; i++) {
+                assertTrue(budgetManager.deduct("task-" + i, "agent-1", "project-1", 30000));
+            }
+            assertFalse(budgetManager.deduct("task-16", "agent-1", "project-1", 30000));
         }
 
         @Test
@@ -89,9 +89,9 @@ class GovernanceIntegrationTest {
 
         @Test
         void differentAgentsHaveIndependentCaps() {
-            budgetManager.deduct("task-1", "agent-1", "project-1", 250000);
+            assertTrue(budgetManager.deduct("task-1", "agent-1", "project-1", 30000));
             // Agent-2 should still have full cap
-            assertTrue(budgetManager.deduct("task-2", "agent-2", "project-1", 250000));
+            assertTrue(budgetManager.deduct("task-2", "agent-2", "project-1", 30000));
         }
     }
 

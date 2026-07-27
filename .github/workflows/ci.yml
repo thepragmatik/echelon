@@ -17,6 +17,14 @@ jobs:
           cache: maven
       - name: Build and Test
         run: mvn clean verify
+      - name: Validate Docker Compose
+        run: docker compose -f echelon-docker/docker-compose.yml --profile managers config
+      - name: Check shell syntax
+        run: bash -n echelon-workers/src/main/resources/scripts/*.sh
+      - name: Build docs
+        run: |
+          pip install mkdocs mkdocs-material
+          mkdocs build --strict
 
   integration:
     runs-on: ubuntu-latest
@@ -30,5 +38,7 @@ jobs:
           java-version: 21
           distribution: temurin
           cache: maven
+      - name: Validate Docker Compose
+        run: docker compose -f echelon-docker/docker-compose.yml --profile managers config
       - name: Integration Tests (Docker)
-        run: mvn verify -Pintegration -pl echelon-governance
+        run: mvn verify -Pintegration -DrunITs=true -pl echelon-governance
