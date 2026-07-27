@@ -1,4 +1,9 @@
 FROM haproxy:latest
+
+# Install curl for healthcheck support
+RUN apt-get update && apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 EXPOSE 8080
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
