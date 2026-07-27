@@ -10,6 +10,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
@@ -18,7 +19,7 @@ import java.util.Set;
 
 @Testcontainers
 @Tag("integration")
-@Disabled("Requires Docker. Run with -DrunITs=true in CI.")
+@EnabledIfSystemProperty(named = "runITs", matches = "true")
 class GovernanceIntegrationTest {
 
     @Container
