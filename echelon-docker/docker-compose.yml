@@ -1,52 +1,124 @@
 services:
   redis-primary:
     image: redis:7-alpine
-    ports: ["6379:6379"]
-    networks: [echelon-internal]
-    volumes: ["redis-data:/data"]
-    command: ["redis-server", "--appendonly", "yes", "--save", "900 1", "--save", "300 10", "--save", "60 10000"]
-    healthcheck: {test:["CMD","redis-cli","ping"],interval:5s,timeout:3s,retries:5}
+    ports:
+      - "6379:6379"
+    networks:
+      - echelon-internal
+    volumes:
+      - "redis-data:/data"
+    command:
+      - "redis-server"
+      - "--appendonly"
+      - "yes"
+      - "--save"
+      - "900 1"
+      - "--save"
+      - "300 10"
+      - "--save"
+      - "60 10000"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   redis-replica:
     image: redis:7-alpine
-    ports: ["6380:6379"]
-    networks: [echelon-internal]
-    command: ["redis-server","--replicaof","redis-primary","6379"]
-    depends_on: [redis-primary]
+    ports:
+      - "6380:6379"
+    networks:
+      - echelon-internal
+    command:
+      - "redis-server"
+      - "--replicaof"
+      - "redis-primary"
+      - "6379"
+    depends_on:
+      - redis-primary
 
   redis-sentinel:
-    build: {context:.,dockerfile:Dockerfile.sentinel}
-    ports: ["26379:26379"]
-    networks: [echelon-internal]
-    depends_on: [redis-primary,redis-replica]
+    build:
+      context: .
+      dockerfile: Dockerfile.sentinel
+    ports:
+      - "26379:26379"
+    networks:
+      - echelon-internal
+    depends_on:
+      - redis-primary
+      - redis-replica
 
   builder:
-    build: {context:..,dockerfile:echelon-docker/Dockerfile.builder}
-    volumes: [../:/workspace:ro,/tmp/echelon-work:/work:rw,~/.m2:/root/.m2:ro]
-    environment: [GH_TOKEN=***,LLM_PROXY_URL=http://privacy-router:8080]
-    networks: [echelon-internal]
-    depends_on: [redis-primary]
-    profiles: [managers]
-    healthcheck: {test:["CMD","curl","-sf","http://localhost:8080/actuator/health"],interval:30s,timeout:10s,retries:3,start_period:40s}
+    build:
+      context: ..
+      dockerfile: echelon-docker/Dockerfile.builder
+    volumes:
+      - ../:/workspace:ro
+      - /tmp/echelon-work:/work:rw
+      - ~/.m2:/root/.m2:ro
+    environment:
+      GH_TOKEN: "***"
+      LLM_PROXY_URL: "http://privacy-router:8080"
+    networks:
+      - echelon-internal
+    depends_on:
+      - redis-primary
+    profiles:
+      - managers
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   reviewer:
-    build: {context:..,dockerfile:echelon-docker/Dockerfile.reviewer}
-    security_opt: [seccomp:./seccomp/reviewer-strict.json]
-    volumes: [../:/workspace:ro,/tmp/echelon-work:/work:rw]
-    environment: [GH_TOKEN=***,LLM_PROXY_URL=http://privacy-router:8080]
-    networks: [echelon-internal]
-    depends_on: [redis-primary]
-    profiles: [managers]
-    healthcheck: {test:["CMD","curl","-sf","http://localhost:8080/actuator/health"],interval:30s,timeout:10s,retries:3,start_period:40s}
+    build:
+      context: ..
+      dockerfile: echelon-docker/Dockerfile.reviewer
+    security_opt:
+      - "seccomp:./seccomp/reviewer-strict.json"
+    volumes:
+      - ../:/workspace:ro
+      - /tmp/echelon-work:/work:rw
+    environment:
+      GH_TOKEN: "***"
+      LLM_PROXY_URL: "http://privacy-router:8080"
+    networks:
+      - echelon-internal
+    depends_on:
+      - redis-primary
+    profiles:
+      - managers
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   privacy-router:
-    build: {context:.,dockerfile:Dockerfile.privacy-router}
-    ports: ["8080:8080"]
-    environment: [DEEPSEEK_API_KEY=***,WAFER_API_KEY=***]
-    networks: [echelon-internal]
-    healthcheck: {test:["CMD","curl","-sf","http://localhost:8080/health"],interval:30s,timeout:10s,retries:3,start_period:15s}
+    build:
+      context: .
+      dockerfile: Dockerfile.privacy-router
+    ports:
+      - "8080:8080"
+    environment:
+      DEEPSEEK_API_KEY: "***"
+      WAFER_API_KEY: "***"
+    networks:
+      - echelon-internal
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
 
 networks:
-  echelon-internal: {driver:bridge}
+  echelon-internal:
+    driver: bridge
+
 volumes:
   redis-data:
