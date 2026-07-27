@@ -3,6 +3,7 @@ package io.echelon.governance.token;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,7 @@ class PolicyEngineTest {
         }
     };
 
-    private final PolicyEngine engine = new PolicyEngine(testStore);
+    private final PolicyEngine engine = new PolicyEngine(testStore, new SimpleMeterRegistry());
 
     @Test
     void embargoOverridesPermit() {
