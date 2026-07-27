@@ -1,0 +1,117 @@
+/* Echelon Custom Theme — Deep Teal + Amber */
+:root {
+  --md-primary-fg-color: #00585E;
+  --md-primary-fg-color--light: #007A82;
+  --md-primary-fg-color--dark: #003B3F;
+  --md-accent-fg-color: #FF8C00;
+  --md-accent-fg-color--light: #FFA940;
+  --md-accent-fg-color--dark: #CC7000;
+  --md-default-fg-color: #2C3E50;
+  --md-typeset-a-color: #007A82;
+}
+
+/* Typography */
+.md-typeset {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--md-primary-fg-color);
+  margin-bottom: 0.5rem;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--md-primary-fg-color--dark);
+  border-bottom: 2px solid var(--md-accent-fg-color);
+  padding-bottom: 0.3rem;
+}
+
+.md-typeset h3 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--md-primary-fg-color);
+}
+
+/* Header */
+.md-header {
+  background: linear-gradient(135deg, var(--md-primary-fg-color) 0%, var(--md-primary-fg-color--dark) 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.md-tabs {
+  background: var(--md-primary-fg-color--dark);
+}
+
+/* Code blocks */
+.md-typeset pre > code {
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+.md-typeset code {
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+/* Admonitions */
+.md-typeset .admonition {
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Tables */
+.md-typeset table:not([class]) {
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--md-primary-fg-color);
+  color: white;
+  font-weight: 600;
+}
+
+/* Links */
+.md-typeset a {
+  color: var(--md-typeset-a-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.md-typeset a:hover {
+  color: var(--md-accent-fg-color);
+  text-decoration: underline;
+}
+
+/* Amber accent on active nav items */
+.md-nav__item .md-nav__link--active {
+  color: var(--md-accent-fg-color);
+  font-weight: 600;
+}
+
+/* Buttons */
+.md-typeset .md-button {
+  border-radius: 6px;
+  font-weight: 600;
+  border-width: 2px;
+}
+
+.md-typeset .md-button--primary {
+  background: var(--md-primary-fg-color);
+  border-color: var(--md-primary-fg-color);
+  color: white !important;
+}
+
+.md-typeset .md-button--primary:hover {
+  background: var(--md-primary-fg-color--light);
+  border-color: var(--md-primary-fg-color--light);
+}
