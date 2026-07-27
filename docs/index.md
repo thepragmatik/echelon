@@ -6,11 +6,7 @@ Built with Java 21+, Spring Boot 3.4+, Maven, Docker, and Redis.
 
 ## Quick Start
 
-```bash
-docker compose -f echelon-docker/docker-compose.yml up -d
-mvn clean compile
-mvn test
-```
+See the [Quick Start Guide](user-guide/quickstart.md) to get Echelon running in 10 minutes.
 
 ## Status
 
@@ -27,5 +23,4 @@ mvn test
 - [Redis Budget/Cost Tracking (ADR-002)](architecture/adr-002-redis-budget-streams.md)
 - [Governance Class Diagram](architecture/governance-class-diagram.md)
 - [Developer Guide](developer-guide.md)
-- [Runbook](runbook.md)
 - [MVP3 Plan](research/mvp3-plan.md)

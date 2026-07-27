@@ -2,6 +2,22 @@
 
 Day-to-day management of an Echelon deployment.
 
+## Redis Stream Monitoring
+
+Monitor the stream queues for backlogs:
+
+```bash
+# Check stream lengths
+docker compose exec redis-primary redis-cli XLEN tasks:build
+docker compose exec redis-primary redis-cli XLEN tasks:review
+
+# Watch for dead consumers
+docker compose exec redis-primary redis-cli XINFO GROUPS tasks:build
+docker compose exec redis-primary redis-cli XINFO GROUPS tasks:review
+```
+
+Stalled or growing streams indicate a downstream consumer issue (e.g., BuildManager or ReviewManager not polling).
+
 ## Health Checks
 
 ```bash
