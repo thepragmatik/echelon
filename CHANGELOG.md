@@ -67,3 +67,15 @@
 - #82 review-adversarial.sh
 - #83 review-quality.sh
 - #84 Redis stream setup
+
+## [0.4.0] — 2026-07-27
+
+### Added (MVP 4 — L7 Policies + Agent Skills)
+- **Agent skill files** — .agents/skills/ with architect, dev, ops, and release instructions for agent-driven development (PR #100)
+- **L7 policy enforcement** — HTTP method+path level access control in Privacy Router (haproxy.cfg). Role-based: implementers can write, reviewers/architects read-only, orchestrators can merge (PR #102)
+- **RedisPolicyStore** — Hot-reloadable policy store via Redis. Policies can be changed at runtime without restart. Includes 5-second cache TTL and refresh() method (PR #103)
+
+### Closed Issues
+- #98 .agents/skills/ — agent instructions
+- #99 L7 policy enforcement
+- #101 RedisPolicyStore
