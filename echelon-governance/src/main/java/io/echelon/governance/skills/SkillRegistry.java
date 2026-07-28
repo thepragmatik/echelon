@@ -14,21 +14,21 @@ public class SkillRegistry {
         this.skillRepository = skillRepository;
     }
 
-    public void register(SkillDefinition skill, String callerRole) {
-        skillRepository.save(skill, callerRole);
+    public void register(SkillDefinition skill) {
+        skillRepository.save(skill);
     }
 
     public List<SkillDefinition> discover(String category) {
         return skillRepository.findByCategory(category);
     }
 
-    public Optional<SkillDefinition> findByName(String name, String callerRole) {
+    public Optional<SkillDefinition> findByName(String name) {
         return skillRepository.findAll().stream()
             .filter(skill -> skill.name().equals(name))
             .findFirst();
     }
 
-    public List<SkillDefinition> listAll(String callerRole) {
+    public List<SkillDefinition> listAll() {
         return skillRepository.findAll();
     }
 }

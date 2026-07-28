@@ -16,6 +16,12 @@ if [ -z "$TASK_ID" ] || [ -z "$ISSUE_URL" ]; then
     exit 1
 fi
 
+# Check that jq is available for JSON processing
+if ! command -v jq >/dev/null 2>&1; then
+    log_error "jq is required but not installed"
+    exit 1
+fi
+
 log_info "Starting implementation for task $TASK_ID (issue: $ISSUE_URL)"
 
 # Discover available coding skills

@@ -46,9 +46,9 @@ class SkillRegistryTest {
 
     @Test
     void testRegister() {
-        skillRegistry.register(reviewSkill, "orchestrator");
+        skillRegistry.register(reviewSkill);
 
-        verify(skillRepository).save(reviewSkill, "orchestrator");
+        verify(skillRepository).save(reviewSkill);
     }
 
     @Test
@@ -78,7 +78,7 @@ class SkillRegistryTest {
         when(skillRepository.findAll())
             .thenReturn(List.of(reviewSkill, buildSkill));
 
-        var result = skillRegistry.findByName("review-github-pr", "reviewer");
+        var result = skillRegistry.findByName("review-github-pr");
 
         assertTrue(result.isPresent());
         assertEquals("review-github-pr@1.0.0", result.get().id());
@@ -89,7 +89,7 @@ class SkillRegistryTest {
         when(skillRepository.findAll())
             .thenReturn(List.of(reviewSkill));
 
-        var result = skillRegistry.findByName("nonexistent-skill", "reviewer");
+        var result = skillRegistry.findByName("nonexistent-skill");
 
         assertTrue(result.isEmpty());
     }
@@ -99,7 +99,7 @@ class SkillRegistryTest {
         when(skillRepository.findAll())
             .thenReturn(List.of(reviewSkill, buildSkill));
 
-        var result = skillRegistry.listAll("orchestrator");
+        var result = skillRegistry.listAll();
 
         assertEquals(2, result.size());
         verify(skillRepository).findAll();
@@ -109,7 +109,7 @@ class SkillRegistryTest {
     void testListAllReturnsEmptyWhenNoSkills() {
         when(skillRepository.findAll()).thenReturn(List.of());
 
-        var result = skillRegistry.listAll("orchestrator");
+        var result = skillRegistry.listAll();
 
         assertTrue(result.isEmpty());
     }

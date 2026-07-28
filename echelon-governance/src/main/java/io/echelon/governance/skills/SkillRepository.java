@@ -20,7 +20,7 @@ public class SkillRepository {
         this.redisTemplate = redisTemplate;
     }
 
-    public void save(SkillDefinition skill, String callerRole) {
+    public void save(SkillDefinition skill) {
         String key = SKILL_KEY_PREFIX + skill.id();
         redisTemplate.opsForHash().putAll(key, skill.toMap());
         redisTemplate.opsForSet().add(CATEGORY_INDEX_PREFIX + skill.category(), key);
@@ -54,7 +54,7 @@ public class SkillRepository {
     public List<SkillDefinition> findAll() {
         List<SkillDefinition> results = new ArrayList<>();
         var cursor = redisTemplate.scan(
-            ScanOptions.scanOptions().match(SKILL_KEY_PREFIX + "*").build()
+            ScanOptions.scanOptions().match(SKILL_KEY_PREFIX + "*").count(1000).build()
         );
         while (cursor.hasNext()) {
             String key = cursor.next();
@@ -68,7 +68,7 @@ public class SkillRepository {
         return results;
     }
 
-    public void delete(String id, String callerRole) {
+    public void delete(String id) {
         String key = SKILL_KEY_PREFIX + id;
         var entries = redisTemplate.<String, String>opsForHash().entries(key);
         if (!entries.isEmpty()) {

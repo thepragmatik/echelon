@@ -77,7 +77,7 @@ class SkillRepositoryTest {
         when(hashOps.entries("skills:review-github-pr@1.0.0"))
             .thenReturn(reviewSkill.toMap());
 
-        skillRepository.save(reviewSkill, "orchestrator");
+        skillRepository.save(reviewSkill);
         var result = skillRepository.findById("review-github-pr@1.0.0");
 
         assertTrue(result.isPresent());
@@ -110,8 +110,8 @@ class SkillRepositoryTest {
         when(hashOps.entries("skills:review-github-pr@1.0.0"))
             .thenReturn(reviewSkill.toMap());
 
-        skillRepository.save(reviewSkill, "orchestrator");
-        skillRepository.save(buildSkill, "orchestrator");
+        skillRepository.save(reviewSkill);
+        skillRepository.save(buildSkill);
 
         var result = skillRepository.findByCategory("reviewing");
 
@@ -182,8 +182,8 @@ class SkillRepositoryTest {
         when(hashOps.entries("skills:review-github-pr@1.0.0"))
             .thenReturn(skillData);
 
-        skillRepository.save(reviewSkill, "orchestrator");
-        skillRepository.delete("review-github-pr@1.0.0", "orchestrator");
+        skillRepository.save(reviewSkill);
+        skillRepository.delete("review-github-pr@1.0.0");
 
         verify(setOps).remove("skills:by-category:reviewing", "skills:review-github-pr@1.0.0");
         verify(redisTemplate).delete("skills:review-github-pr@1.0.0");
@@ -193,7 +193,7 @@ class SkillRepositoryTest {
     void testDeleteNonExistentSkillDoesNotThrow() {
         when(hashOps.entries("skills:nonexistent")).thenReturn(Map.of());
 
-        assertDoesNotThrow(() -> skillRepository.delete("nonexistent", "orchestrator"));
+        assertDoesNotThrow(() -> skillRepository.delete("nonexistent"));
         verify(redisTemplate).delete("skills:nonexistent");
     }
 }
