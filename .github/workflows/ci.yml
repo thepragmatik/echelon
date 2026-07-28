@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build from source in Docker
-        run: docker compose -f echelon-docker/docker-compose.yml --profile managers build --quiet
+        run: docker compose -f echelon-docker/docker-compose.yml build builder --quiet
       - name: Validate compose config
         run: docker compose -f echelon-docker/docker-compose.yml --profile managers config > /dev/null
 
@@ -62,8 +62,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and test inside Docker
         run: |
-          docker compose -f echelon-docker/docker-compose.yml build builder
-          docker compose -f echelon-docker/docker-compose.yml --profile managers run --rm builder mvn test -q
+          docker build -f echelon-docker/Dockerfile.builder --target test -t echelon-builder-test .
 
   e2e:
     runs-on: ubuntu-latest

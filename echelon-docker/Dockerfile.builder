@@ -1,17 +1,22 @@
 # Stage 1: Build
-FROM eclipse-temurin:21-jdk AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /build
 COPY pom.xml ./
-COPY echelon-parent/pom.xml echelon-parent/
 COPY echelon-governance/pom.xml echelon-governance/
 COPY echelon-orchestrator/pom.xml echelon-orchestrator/
 COPY echelon-workers/pom.xml echelon-workers/
+COPY echelon-docker/pom.xml echelon-docker/
+COPY echelon-managers/pom.xml echelon-managers/
 RUN mvn dependency:go-offline -q
 
 COPY . .
 RUN mvn clean package -DskipTests -q
 
-# Stage 2: Runtime
+# Stage 2: Test
+FROM build AS test
+RUN mvn test -q
+
+# Stage 3: Runtime
 FROM eclipse-temurin:21-jre
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl git jq maven gh \
