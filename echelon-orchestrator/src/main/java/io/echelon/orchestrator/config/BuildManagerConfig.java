@@ -8,19 +8,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BuildManagerConfig {
 
-    private final BuildManager buildManager;
+  private final BuildManager buildManager;
 
-    public BuildManagerConfig(BuildManager buildManager) {
-        this.buildManager = buildManager;
-    }
+  public BuildManagerConfig(BuildManager buildManager) {
+    this.buildManager = buildManager;
+  }
 
-    @PostConstruct
-    public void startManager() {
-        buildManager.start();
-    }
+  @PostConstruct
+  public void startManager() {
+    buildManager.start();
+  }
 
-    @PreDestroy
-    public void stopManager() {
-        buildManager.shutdown();
-    }
+  @PreDestroy
+  public void stopManager() {
+    buildManager.shutdown();
+  }
 }
