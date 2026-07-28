@@ -31,6 +31,8 @@ nav:
     - Security: user-guide/security.md
     - Operations: user-guide/operations.md
   - Quality Case: quality-case.md
+  - Reference:
+    - Configuration: reference/configuration.md
   - Architecture:
     - Overview: whitepaper/echelon-architecture.md
     - "ADR-001: Deontic Tokens": architecture/adr-001-deontic-tokens.md
