@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -31,7 +31,7 @@ jobs:
     needs: build
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -48,7 +48,7 @@ jobs:
     needs: build
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build from source in Docker
         run: docker compose -f echelon-docker/docker-compose.yml build builder --quiet
       - name: Validate compose config
@@ -59,7 +59,7 @@ jobs:
     needs: build
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build and test inside Docker
         run: |
           docker build -f echelon-docker/Dockerfile.builder --target test -t echelon-builder-test .
@@ -69,7 +69,7 @@ jobs:
     needs: build
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
