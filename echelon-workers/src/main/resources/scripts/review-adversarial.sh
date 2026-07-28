@@ -59,6 +59,26 @@ if [ -n "$UNSAFE" ]; then
     ISSUES="$ISSUES"$'\n'"- MEDIUM: Unsafe file operations: $UNSAFE"
 fi
 
+# Create GitHub Issues for each finding
+if [ -n "$ISSUES" ]; then
+    PR_NUMBER="${PR_URL##*/}"
+    while IFS= read -r finding; do
+        [ -z "$finding" ] && continue
+        # Extract severity prefix for the label
+        local severity=$(echo "$finding" | grep -oE 'CRITICAL|HIGH|MEDIUM|LOW' | head -1 || echo "bug")
+        create_issue \
+            "review-adversarial: $(echo "$finding" | sed 's/^[[:space:]]*- //' | cut -c1-80)" \
+            "**Source:** Adversarial Review of PR #$PR_NUMBER
+
+**Finding:** $finding
+
+**PR:** $PR_URL
+
+**Action required:** Fix or document rationale. Re-review will verify resolution." \
+            "${severity,,}"
+    done <<< "$ISSUES"
+fi
+
 # Build verdict
 if [ -n "$ISSUES" ]; then
     VERDICT="FAIL"

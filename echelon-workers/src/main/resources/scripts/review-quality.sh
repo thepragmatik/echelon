@@ -53,6 +53,25 @@ if [ -n "$OVERSIZE" ]; then
     ISSUES="$ISSUES"$'\n'"- LOW: Oversized files (>500KB): $OVERSIZE"
 fi
 
+# Create GitHub Issues for each suggestion
+if [ -n "$ISSUES" ]; then
+    PR_NUMBER="${PR_URL##*/}"
+    while IFS= read -r suggestion; do
+        [ -z "$suggestion" ] && continue
+        local severity=$(echo "$suggestion" | grep -oE 'CRITICAL|HIGH|MEDIUM|LOW' | head -1 || echo "enhancement")
+        create_issue \
+            "review-quality: $(echo "$suggestion" | sed 's/^[[:space:]]*- //' | cut -c1-80)" \
+            "**Source:** Quality Review of PR #$PR_NUMBER
+
+**Suggestion:** $suggestion
+
+**PR:** $PR_URL
+
+**Action required:** Review and implement if applicable." \
+            "${severity,,}"
+    done <<< "$ISSUES"
+fi
+
 VERDICT="PASS"
 [ -n "$ISSUES" ] && VERDICT="PASS_WITH_SUGGESTIONS"
 

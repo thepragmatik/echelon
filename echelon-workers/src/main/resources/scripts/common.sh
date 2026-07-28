@@ -114,6 +114,25 @@ check_budget() {
 }
 
 # ──────────────────────────────────────────────
+# GitHub Issue Creation
+# ──────────────────────────────────────────────
+
+# Create a GitHub issue for a review finding.
+# Usage: create_issue <title> <body> <label> [repo]
+create_issue() {
+    local title="$1"
+    local body="$2"
+    local label="${3:-bug}"
+    local repo="${4:-thepragmatik/echelon}"
+
+    gh issue create \
+        --repo "$repo" \
+        --title "$title" \
+        --label "$label" \
+        --body "$body"
+}
+
+# ──────────────────────────────────────────────
 # Skill Registry Client
 # ──────────────────────────────────────────────
 

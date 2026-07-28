@@ -227,6 +227,17 @@ assert_contains "safe_clone is defined as a function" "safe_clone" "$(declare -f
 assert_contains "safe_checkout is defined as a function" "safe_checkout" "$(declare -f safe_checkout)"
 
 # ------------------------------------------------------------------
+# Test: create_issue
+# ------------------------------------------------------------------
+echo ""
+echo "10) create_issue"
+
+# Verify the function is defined
+assert_contains "create_issue is defined as a function" "create_issue" "$(declare -f create_issue)"
+
+echo "  SKIP create_issue execution (requires gh CLI with auth — tested in CI)"
+
+# ------------------------------------------------------------------
 # Summary
 # ------------------------------------------------------------------
 echo ""
