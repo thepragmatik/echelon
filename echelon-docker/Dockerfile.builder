@@ -12,7 +12,11 @@ RUN mvn dependency:go-offline -q
 COPY . .
 RUN mvn clean package -DskipTests -q
 
-# Stage 2: Runtime
+# Stage 2: Test
+FROM build AS test
+RUN mvn test -q
+
+# Stage 3: Runtime
 FROM eclipse-temurin:21-jre
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl git jq maven gh \
