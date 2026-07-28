@@ -16,6 +16,29 @@ Echelon orchestrates multi-agent AI swarms with deontic token governance, Redis-
 
 Built with Java 21+, Spring Boot 3.4+, Maven, Docker, and Redis.
 
+```mermaid
+flowchart TB
+    subgraph "Echelon Pipeline"
+        A[GitHub Issue] --> B[BuildManager]
+        B --> C[Implement.sh]
+        C --> D[Git PR]
+        D --> E[ReviewManager]
+        E --> F[Adversarial Review]
+        E --> G[Quality Review]
+        F & G --> H[PolicyEngine Verdict]
+        H --> I{Merge?}
+        I -->|APPROVE| J[Merge PR]
+        I -->|DENY| K[Create Fix Issue]
+        K --> B
+    end
+    subgraph "Infrastructure"
+        L[Redis Streams]
+        M[BudgetManager]
+        N[CostTracker]
+        O[DeonticToken]
+    end
+```
+
 ---
 
 ## Quick Start
