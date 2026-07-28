@@ -32,6 +32,7 @@ public class TaskStreamService {
     return result;
   }
 
+  @SuppressWarnings("unchecked")
   public List<MapRecord<String, Object, Object>> readTasks(
       String stream, String consumerGroup, String consumerName, int count) {
     var consumer = Consumer.from(consumerGroup, consumerName);
