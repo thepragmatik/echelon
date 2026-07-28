@@ -5,6 +5,8 @@ COPY pom.xml ./
 COPY echelon-governance/pom.xml echelon-governance/
 COPY echelon-orchestrator/pom.xml echelon-orchestrator/
 COPY echelon-workers/pom.xml echelon-workers/
+COPY echelon-docker/pom.xml echelon-docker/
+COPY echelon-managers/pom.xml echelon-managers/
 RUN mvn dependency:go-offline -q
 
 COPY . .
