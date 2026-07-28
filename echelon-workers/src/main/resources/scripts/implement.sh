@@ -18,6 +18,17 @@ fi
 
 log_info "Starting implementation for task $TASK_ID (issue: $ISSUE_URL)"
 
+# Discover available coding skills
+log_info "Discovering available coding skills..."
+CODING_SKILLS=$(skill_discover "coding" "implementer" 2>/dev/null || echo "[]")
+SKILL_COUNT=$(echo "$CODING_SKILLS" | jq 'length' 2>/dev/null || echo "0")
+if [ "$SKILL_COUNT" -gt 0 ]; then
+    SELECTED_SKILL=$(echo "$CODING_SKILLS" | jq -r '.[0].name // "none"' 2>/dev/null || echo "none")
+    log_info "Found $SKILL_COUNT coding skill(s) — selected: $SELECTED_SKILL"
+else
+    log_info "No coding skills discovered — proceeding without skill registry"
+fi
+
 # Check policy
 log_info "Checking policy for implementer role..."
 POLICY=$(check_policy "implementer" "implement_task" 2>/dev/null || echo "DENIED")
