@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build from source in Docker
-        run: docker compose -f echelon-docker/docker-compose.yml --profile managers build --quiet
+        run: docker compose -f echelon-docker/docker-compose.yml build builder --quiet
       - name: Validate compose config
         run: docker compose -f echelon-docker/docker-compose.yml --profile managers config > /dev/null
 
@@ -63,7 +63,7 @@ jobs:
       - name: Build and test inside Docker
         run: |
           docker compose -f echelon-docker/docker-compose.yml build builder
-          docker compose -f echelon-docker/docker-compose.yml --profile managers run --entrypoint mvn --rm builder test -q
+          docker compose -f echelon-docker/docker-compose.yml --profile managers run --entrypoint mvn --rm builder test -q -Dmaven.repo.local=/tmp/.m2/repository
 
   e2e:
     runs-on: ubuntu-latest
