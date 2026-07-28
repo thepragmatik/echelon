@@ -22,6 +22,15 @@ cd "$WORK_DIR"
 
 ISSUES=""
 
+# Check if task used a registered skill
+log_info "Checking skill registry for task $TASK_ID..."
+REGISTERED_SKILLS=$(skill_list "reviewer" 2>/dev/null || echo "[]")
+SKILL_COUNT=$(echo "$REGISTERED_SKILLS" | jq 'length' 2>/dev/null || echo "0")
+if [ "$SKILL_COUNT" -eq 0 ]; then
+    ISSUES="$ISSUES"$'\n'"- WARNING: No registered skills found in registry — task may have been implemented without a tracked coding skill"
+    log_warn "No skills registered — implementation may be untracked"
+fi
+
 # Check test coverage
 log_info "Checking test coverage..."
 TEST_FILES=$(find . -name "*Test.java" -not -path "./.git/*" 2>/dev/null | wc -l)
