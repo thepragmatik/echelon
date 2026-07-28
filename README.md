@@ -2,7 +2,8 @@
 [![Docs](https://github.com/thepragmatik/echelon/actions/workflows/pages.yml/badge.svg)](https://thepragmatik.github.io/echelon/)
 [![Release](https://img.shields.io/github/v/release/thepragmatik/echelon)](https://github.com/thepragmatik/echelon/releases)
 [![Java](https://img.shields.io/badge/Java-21-blue.svg)](https://adoptium.net/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![CodeQL](https://github.com/thepragmatik/echelon/actions/workflows/codeql.yml/badge.svg)](https://github.com/thepragmatik/echelon/actions/workflows/codeql.yml)
 
 # Echelon
 
