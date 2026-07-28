@@ -63,7 +63,7 @@ jobs:
       - name: Build and test inside Docker
         run: |
           docker compose -f echelon-docker/docker-compose.yml build builder
-          docker compose -f echelon-docker/docker-compose.yml --profile managers run --rm builder mvn test -q
+          docker compose -f echelon-docker/docker-compose.yml --profile managers run --entrypoint mvn --rm builder test -q
 
   e2e:
     runs-on: ubuntu-latest
