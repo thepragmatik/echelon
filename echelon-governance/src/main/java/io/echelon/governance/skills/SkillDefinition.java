@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public record SkillDefinition(
     String id,
     String name,
@@ -15,6 +17,8 @@ public record SkillDefinition(
     String entryPoint,
     String author
 ) {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     public Map<String, String> toMap() {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
@@ -22,7 +26,11 @@ public record SkillDefinition(
         map.put("description", description);
         map.put("category", category);
         map.put("version", version);
-        map.put("requiredTools", requiredTools != null ? String.join(",", requiredTools) : "");
+        try {
+            map.put("requiredTools", requiredTools != null ? OBJECT_MAPPER.writeValueAsString(requiredTools) : "");
+        } catch (Exception e) {
+            map.put("requiredTools", "");
+        }
         map.put("entryPoint", entryPoint);
         map.put("author", author);
         return map;
@@ -30,9 +38,17 @@ public record SkillDefinition(
 
     public static SkillDefinition fromMap(Map<String, String> map) {
         String requiredToolsStr = map.getOrDefault("requiredTools", "");
-        List<String> tools = requiredToolsStr.isEmpty()
-            ? List.of()
-            : Arrays.asList(requiredToolsStr.split(","));
+        List<String> tools;
+        if (requiredToolsStr.isEmpty()) {
+            tools = List.of();
+        } else {
+            try {
+                tools = OBJECT_MAPPER.readValue(requiredToolsStr,
+                    OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, String.class));
+            } catch (Exception e) {
+                tools = List.of();
+            }
+        }
         return new SkillDefinition(
             map.get("id"),
             map.get("name"),

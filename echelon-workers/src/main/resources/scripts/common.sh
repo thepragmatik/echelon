@@ -183,7 +183,6 @@ skill_register() {
         --arg category "$category" \
         --arg tags "$tags" \
         --arg roles "$roles" \
-        --arg contentPath "$dir" \
         --arg registeredAt "$now" \
         '{
             id: $id,
@@ -193,7 +192,6 @@ skill_register() {
             category: $category,
             tags: ($tags | fromjson),
             allowedRoles: ($roles | fromjson),
-            contentPath: $contentPath,
             registeredAt: $registeredAt,
             status: "active"
         }')
