@@ -15,9 +15,12 @@ public record Task(
     Instant createdAt,
     Instant updatedAt,
     String assignedAgent,
-    Map<String, String> metadata
-) {
-    public enum TaskStatus {
-        PENDING, ASSIGNED, IN_PROGRESS, COMPLETED, FAILED
-    }
+    Map<String, String> metadata) {
+  public enum TaskStatus {
+    PENDING,
+    ASSIGNED,
+    IN_PROGRESS,
+    COMPLETED,
+    FAILED
+  }
 }

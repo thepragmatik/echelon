@@ -11,5 +11,4 @@ public record CostAttribution(
     long tokens,
     double cost,
     Map<String, String> tags,
-    Instant timestamp
-) {}
+    Instant timestamp) {}
