@@ -1,8 +1,7 @@
 # Stage 1: Build
-FROM eclipse-temurin:21-jdk AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /build
 COPY pom.xml ./
-COPY echelon-parent/pom.xml echelon-parent/
 COPY echelon-governance/pom.xml echelon-governance/
 COPY echelon-orchestrator/pom.xml echelon-orchestrator/
 COPY echelon-workers/pom.xml echelon-workers/
