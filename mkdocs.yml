@@ -30,8 +30,9 @@ nav:
     - Review Pipeline: user-guide/review-pipeline.md
     - Security: user-guide/security.md
     - Operations: user-guide/operations.md
+  - Quality Case: quality-case.md
   - Architecture:
-    - Overview: whitepaper.md
+    - Overview: whitepaper/echelon-architecture.md
     - "ADR-001: Deontic Tokens": architecture/adr-001-deontic-tokens.md
     - "ADR-002: Redis Budget/Cost": architecture/adr-002-redis-budget-streams.md
     - "ADR-004: Skills Discovery": architecture/adr-004-agent-skills-discovery.md
