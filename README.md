@@ -4,6 +4,9 @@
 [![Java](https://img.shields.io/badge/Java-21-blue.svg)](https://adoptium.net/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![CodeQL](https://github.com/thepragmatik/echelon/actions/workflows/codeql.yml/badge.svg)](https://github.com/thepragmatik/echelon/actions/workflows/codeql.yml)
+[![AI](https://img.shields.io/badge/AI-Written-8A2BE2?labelColor=1a1a2e&style=flat-square)](https://github.com/thepragmatik/echelon)
+
+> **"This project was written by AI agents. If that gives you pause, consider: your coffee was roasted by a machine, your car was assembled by robots, and this README was probably scanned by another AI before you read it. The code compiles, the tests pass, and the CI is green. Judge us by our output, not our origin."**
 
 # Echelon
 
