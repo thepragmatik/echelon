@@ -34,11 +34,15 @@ nav:
     - Overview: whitepaper.md
     - "ADR-001: Deontic Tokens": architecture/adr-001-deontic-tokens.md
     - "ADR-002: Redis Budget/Cost": architecture/adr-002-redis-budget-streams.md
+    - "ADR-004: Skills Discovery": architecture/adr-004-agent-skills-discovery.md
     - Class Diagram: architecture/governance-class-diagram.md
+  - Design:
+    - "Agent Skills Discovery": design/agent-skills-discovery.md
   - Research:
     - Governance Synthesis: research/deontic-governance-synthesis.md
     - Roadmap Audit: research/roadmap-audit.md
     - "MVP 3 Plan": research/mvp3-plan.md
+    - "OpenShell Analysis": research/openshell-analysis.md
   - Development: developer-guide.md
   - Operations: runbook.md
 markdown_extensions:
