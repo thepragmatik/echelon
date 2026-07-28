@@ -62,7 +62,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and test inside Docker
         run: |
-          docker build -f echelon-docker/Dockerfile.builder --target test -t echelon-builder-test ..
+          docker build -f echelon-docker/Dockerfile.builder --target test -t echelon-builder-test .
 
   e2e:
     runs-on: ubuntu-latest
