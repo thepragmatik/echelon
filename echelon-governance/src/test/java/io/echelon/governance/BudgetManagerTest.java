@@ -16,6 +16,7 @@ class BudgetManagerTest {
   private BudgetManager budgetManager;
 
   @BeforeEach
+  @SuppressWarnings("unchecked")
   void setUp() {
     redisTemplate = mock(RedisTemplate.class);
     valueOps = mock(ValueOperations.class);
